@@ -1,6 +1,5 @@
 package pl.com.jmotyka.general;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Shelter extends Submitter {
@@ -10,6 +9,8 @@ public class Shelter extends Submitter {
     private String phoneNumber;
     private String email;
 
+
+
     ///////////////////////////////// CONSTRUCTORS ///////////////////////////////
 
     public Shelter(String name, Address shelterAddress, String phoneNumber, String email) {
@@ -17,6 +18,11 @@ public class Shelter extends Submitter {
         this.shelterAddress = shelterAddress;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    @Override
+    public String getTableName() {
+        return new String("ensheltered");
     }
 
     ///////////////////////////////////// SUBMITTER INHERITED METHODS //////////////////////////////////////////////////////////////////////////
@@ -37,6 +43,15 @@ public class Shelter extends Submitter {
     }
 
     /////////////////////////////// UPLOADABLE INTERFACE METHODS //////////////////////////////////////////
+//todo
+    @Override
+    public String getAllParams() {
+
+
+
+
+        return null;
+    }
 
     @Override
     public String createUploadStatement(Uploadable uploadableObject) {
@@ -44,7 +59,7 @@ public class Shelter extends Submitter {
         String shelterParams = "'" + shelter.getEmail() + "', '" + shelter.getName() + "', '" + shelter.getShelterAddress().getStreet() + "', '" + shelter.getShelterAddress().getStreetNo() + "', '" + shelter.getShelterAddress().getFlatNo() + "', '" + shelter.getShelterAddress().getPostCode() +"', '" +
                 shelter.getShelterAddress().getCity() + "', '" + shelter.getShelterAddress().getCountry() + "', '" +shelter.getPhoneNumber() + "'";
         String sqlStatement = "INSERT INTO shelter (emailShelter, nameShelter, streetShelter, streetNoShelter, flatNoShelter, postCodeShelter, cityShelter, countryShelter, phoneNoShelter) VALUES (" + shelterParams + ")";
-        System.out.println("taki idzie statement który daje blad: " + sqlStatement);
+
         return sqlStatement;
     }
 

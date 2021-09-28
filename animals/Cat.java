@@ -3,6 +3,8 @@ package pl.com.jmotyka.animals;
 import pl.com.jmotyka.general.Owner;
 import pl.com.jmotyka.general.Uploadable;
 import pl.com.jmotyka.general.Shelter;
+import pl.com.jmotyka.general.compareStrategies.CompareCats;
+import pl.com.jmotyka.general.uploadStrategies.UploadLostCat;
 
 import java.util.Objects;
 
@@ -15,9 +17,31 @@ public class Cat extends Animal {
         super(name, gender, healthStatus, primaryColor, secondaryColor, tertiaryColor, bodytype, sterilisation, hadCollar, hadNameTag, hasTail, heightInCm, lengthInCm, weightInGrams);
         this.pattern = pattern;
         this.breed = breed;
+        uploadStrategy = new UploadLostCat();
+        compareStrategy = new CompareCats();
     }
 
+    ///////////////////////////////////// ANIMAL METHODS ////////////////////////////////////////////////////////////////////
+
+
     /////////////////////////////////////   Uploadable interface methods /////////////////////////////////////////////////////
+
+
+    @Override
+    public String getAllParams() {
+
+        String catParams1 = "'" + this.getName() + "', '" + this.getGender().name() + "', '" + this.getHealthStatus().name() + "', '" + this.getPrimaryColor().name() + "', '" + this.getSecondaryColor().name() + "', '"
+                + this.getTertiaryColor().name() + "', '" + this.getBodytype().name() + "', ";
+        boolean steril =  this.getSterilisation(); boolean collar = this.getHadCollar(); boolean nameTag = this.getHadNameTag(); boolean tail = this.getHasTail();
+        int id = this.getSubmittedBy().getSubmitterID();
+        String catParams2 = ", '" + String.valueOf(this.getHeightInCm()) + "', '" + String.valueOf(this.getLengthInCm()) + "', '" + String.valueOf(this.getWeightInGrams())
+                + "', '" + this.getPattern().name() + "', '" + this.getBreed().name() + "'";
+    String allParams = " (nameCat, genderCat, healthCat, primColorCat, secColorCat, terColorCat, " +
+        "bodytypeCat, sterilCat, collarCat, nametagCat, tailCat, heightCat, lengthCat, weightCat, patternCat, breedCat, idShelter) VALUES ("
+            + catParams1 + steril + ", "+ collar + ", "+ nameTag + ", "+ tail + catParams2 + ", " + id +")";
+
+        return allParams;
+    }
 
     @Override
     public String createUploadStatement(Uploadable uploadableObject){
@@ -25,7 +49,7 @@ public class Cat extends Animal {
         String catParams1 = "'" + cat.getName() + "', '" + cat.getGender().name() + "', '" + cat.getHealthStatus().name() + "', '" + cat.getPrimaryColor().name() + "', '" + cat.getSecondaryColor().name() + "', '"
                 + cat.getTertiaryColor().name() + "', '" + cat.getBodytype().name() + "', ";
         boolean steril =  cat.getSterilisation(); boolean collar = cat.getHadCollar(); boolean nameTag = cat.getHadNameTag(); boolean tail = cat.getHasTail();
-        int id = cat.getSubmittedBy().getSubmitterID(); /* getUploaderID();*/
+        int id = cat.getSubmittedBy().getSubmitterID(); // getUploaderID();
         String catParams2 = ", '" + String.valueOf(cat.getHeightInCm()) + "', '" + String.valueOf(cat.getLengthInCm()) + "', '" + String.valueOf(cat.getWeightInGrams())
                 + "', '" + cat.getPattern().name() + "', '" + cat.getBreed().name() + "'";
         String sqlStatement = null;
@@ -46,7 +70,7 @@ public class Cat extends Animal {
         System.out.println("TA FUNKCJA ZWRACA NULLA I JEST W CAT !!!!");
 
         return null;
-    }
+}
 
     ///////////////////////// findable interface methods ////////////////////////////////////////////////
 

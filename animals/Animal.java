@@ -1,10 +1,23 @@
 package pl.com.jmotyka.animals;
 
 import pl.com.jmotyka.general.Submitter;
+import pl.com.jmotyka.general.compareStrategies.CompareStrategy;
+import pl.com.jmotyka.general.downloadStrategies.DownloadStrategy;
+import pl.com.jmotyka.general.uploadStrategies.UploadLostCat;
+import pl.com.jmotyka.general.uploadStrategies.UploadStrategy;
 import pl.com.jmotyka.general.Uploadable;
 import java.util.Objects;
 
 public abstract class Animal implements Uploadable, Findable {
+
+    protected UploadStrategy uploadStrategy;
+    protected CompareStrategy compareStrategy;
+    protected DownloadStrategy downloadStrategy; //czy na pewno tak? Zwierzaka dopiero ściągam z bazy więc nie mam na kim wywołać metod...
+
+    protected Submitter submittedBy;
+
+    protected Boolean lostOrFound; //TODO variable to determine in which table the animal shall be saved or looked for
+    protected Integer similarity; //TODO after using compare() method from CompareStrategy each Animal may have similarity index to sort them
 
     protected String name;
     protected GenderEnum gender;
@@ -20,7 +33,6 @@ public abstract class Animal implements Uploadable, Findable {
     protected long heightInCm;
     protected long lengthInCm;
     protected long weightInGrams;
-    protected Submitter submittedBy;
 
     public Animal(String name, GenderEnum gender, AnimalHealthStatusEnum healthStatus, Color primaryColor, Color secondaryColor, Color tertiaryColor, Bodytype bodytype, Boolean sterilisation, Boolean hadCollar, Boolean hadNameTag, Boolean hasTail, Long heightInCm, Long lengthInCm, Long weightInGrams) {
         this.name = name;
@@ -37,18 +49,16 @@ public abstract class Animal implements Uploadable, Findable {
         this.heightInCm = heightInCm;
         this.lengthInCm = lengthInCm;
         this.weightInGrams = weightInGrams;
-    }
+}
 
     public String getAnimalDetailsForDisplay(){ //DO UZUPEŁNIENIA
         String text = "<p>";
         text += "We've found a " + this.getPrimaryColor() + ", " + this.getBodytype() + " ";
         return text;
-    }
+}
 
     @Override
     public <S extends Submitter, T extends Animal> S retrieveSubmitterFromDB(T animal) {
-
-        System.out.println("TA FUNKCJA ZWRACA NULLA I JEST W ANIMAL!!!");
 
         return null;
     }
@@ -255,5 +265,40 @@ public abstract class Animal implements Uploadable, Findable {
         this.submittedBy = submittedBy;
     }
 
+    public void setHeightInCm(long heightInCm) {
+        this.heightInCm = heightInCm;
+    }
+
+    public void setLengthInCm(long lengthInCm) {
+        this.lengthInCm = lengthInCm;
+    }
+
+    public void setWeightInGrams(long weightInGrams) {
+        this.weightInGrams = weightInGrams;
+    }
+
+    public UploadStrategy getUploadStrategy() {
+        return uploadStrategy;
+    }
+
+    public void setUploadStrategy(UploadStrategy uploadStrategy) {
+        this.uploadStrategy = uploadStrategy;
+    }
+
+    public CompareStrategy getCompareStrategy() {
+        return compareStrategy;
+    }
+
+    public void setCompareStrategy(CompareStrategy compareStrategy) {
+        this.compareStrategy = compareStrategy;
+    }
+
+    public DownloadStrategy getDownloadStrategy() {
+        return downloadStrategy;
+    }
+
+    public void setDownloadStrategy(DownloadStrategy downloadStrategy) {
+        this.downloadStrategy = downloadStrategy;
+    }
 }
 

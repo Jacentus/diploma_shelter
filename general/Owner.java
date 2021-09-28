@@ -22,6 +22,11 @@ public class Owner extends Submitter  {
         this.e_mail = e_mail;
 }
 
+    public String getTableName(){
+        return new String("lostcats");
+    }
+
+
 ///////////////////////////////////// SUBMITTER INHERITED METHODS //////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -41,6 +46,11 @@ public class Owner extends Submitter  {
     }
 
 /////////////////////////////////////   Uploadable interface methods /////////////////////////////////////////////////////
+//TODO
+    @Override
+    public String getAllParams() {
+        return null;
+    }
 
     @Override
     public String createUploadStatement(Uploadable uploadableObject){

@@ -3,6 +3,9 @@ package pl.com.jmotyka.animals;
 import pl.com.jmotyka.general.Owner;
 import pl.com.jmotyka.general.Uploadable;
 import pl.com.jmotyka.general.Shelter;
+import pl.com.jmotyka.general.compareStrategies.CompareCats;
+import pl.com.jmotyka.general.compareStrategies.CompareDogs;
+import pl.com.jmotyka.general.uploadStrategies.UploadDog;
 
 import java.util.Objects;
 
@@ -13,9 +16,16 @@ public class Dog extends Animal {
     public Dog(String name, GenderEnum gender, AnimalHealthStatusEnum healthStatus, Color primaryColor, Color secondaryColor, Color tertiaryColor, Bodytype bodytype, Boolean sterilisation, Boolean hadCollar, Boolean hadNameTag, Boolean hasTail, Long heightInCm, Long lengthInCm, Long weightInGrams, DogBreed breed) {
         super(name, gender, healthStatus, primaryColor, secondaryColor, tertiaryColor, bodytype, sterilisation, hadCollar, hadNameTag, hasTail, heightInCm, lengthInCm, weightInGrams);
         this.breed = breed;
+        uploadStrategy = new UploadDog();
+        compareStrategy = new CompareDogs();
     }
 
-    /////////////////////////////////////   Savable interface methods /////////////////////////////////////////////////////
+    /////////////////////////////////////   Uploadable interface methods /////////////////////////////////////////////////////
+
+    @Override
+    public String getAllParams() {
+        return null;
+    }
 
     @Override
     public String createUploadStatement(Uploadable uploadableObject){

@@ -2,7 +2,6 @@ package pl.com.jmotyka.general;
 
 import pl.com.jmotyka.GUI.ContactButton;
 import pl.com.jmotyka.animals.Animal;
-import pl.com.jmotyka.animals.Findable;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -84,7 +83,7 @@ public class AnimalComparer <T extends Animal>{
             /*resultToBeDisplayed.add(createTextField(probableMatch));*/
 /*            resultToBeDisplayed.add(Box.createRigidArea(new Dimension(0, 5)));*/
         }
-
+        bestmatchSoFar.getUploadStrategy().upload(bestmatchSoFar);
         return resultToBeDisplayed;
     }
 

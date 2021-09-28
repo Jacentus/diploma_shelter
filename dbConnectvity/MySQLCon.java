@@ -12,10 +12,20 @@ public class MySQLCon {
 
     private String myDriver = "com.mysql.jdbc.Driver";
     private String myURL = "jdbc:mysql://localhost:3306/kitqfinderdb";
+    private String user = "root";
+    private String pass = "haslo";
 
     public MySQLCon(){}
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void connect(){
+        try {
+            Class.forName(myDriver);
+            Connection con = DriverManager.getConnection(this.myURL, this.user, this.pass);
+        } catch (ClassNotFoundException | SQLException e){
+        }
+    }
 
     public Boolean checkDBforDuplicates(Submitter submitter){
         Boolean isDuplicated = null;
@@ -38,6 +48,8 @@ public class MySQLCon {
         return isDuplicated;
     }
 
+    // na potrzeby implementacji wzorca strategy przeciążylem funkcję - przyjmuje Stringa wyprodukowanego przez odpowiednią klasę implementującą interfejs UploadStrategy
+
     public void sendToDB(Uploadable uploadableObject) {
         try {
         Class.forName("com.mysql.jdbc.Driver");
@@ -53,6 +65,21 @@ public class MySQLCon {
             e.printStackTrace();
         }
         }
+
+    public void sendToDB(String uploadStatement) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(this.myURL, "root", "haslo");
+            Statement st = con.createStatement();
+            st.executeUpdate(uploadStatement);
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+            String message = "class not found exception ";
+            System.out.println(message);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     public int retrieveID(Uploadable uploadableObject){  // DZIALA DLA LOSTCAT I OWNERA, SPRAWDZIC CZY W OGÓLE MUSZE ODZYSKIWAC ID ZWIERZAKA
         int id = 0;
@@ -212,6 +239,21 @@ public class MySQLCon {
         this.myURL = myURL;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
 }
 
 
